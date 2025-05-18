@@ -1,27 +1,29 @@
 const verifyToken = require("./jwt").verifyToken;
 
 function authMiddleware(req, res, next) {
-  // Ambil token dari header Authorization: Bearer <token>
   const authHeader = req.headers["authorization"];
   if (!authHeader) {
     return res.status(401).json({ message: "Token tidak ditemukan" });
   }
 
-  const token = authHeader.split(" ")[1]; // ambil token setelah "Bearer"
-
-  if (!token) {
-    return res.status(401).json({ message: "Token tidak ditemukan" });
+  const parts = authHeader.split(" ");
+  if (parts.length !== 2 || parts[0] !== "Bearer") {
+    return res.status(401).json({ message: "Format token salah" });
   }
 
-  const decoded = verifyToken(token);
+  const token = parts[1];
 
-  if (!decoded) {
+  try {
+    const decoded = verifyToken(token);
+    if (!decoded) {
+      return res.status(401).json({ message: "Token tidak valid atau expired" });
+    }
+
+    req.user = decoded;
+    next();
+  } catch (err) {
     return res.status(401).json({ message: "Token tidak valid atau expired" });
   }
-
-  // Simpan data user dari token ke req.user supaya bisa dipakai di route berikutnya
-  req.user = decoded;
-  next(); // lanjut ke handler route
 }
 
 module.exports = authMiddleware;

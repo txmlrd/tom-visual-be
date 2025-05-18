@@ -36,6 +36,12 @@ const Project = sequelize.define("Projects", {
     allowNull: false,
     defaultValue: DataTypes.NOW,
   },
+  updatedAt: 
+  {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
   status: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -43,7 +49,7 @@ const Project = sequelize.define("Projects", {
   },
 });
 
-module.exports = Projects;
+module.exports = Project;
 Project.associate = (models) => {
   Project.belongsTo(models.ProjectTypes, { foreignKey: 'projectTypeId' });
   Project.hasMany(models.LogoImages, { foreignKey: 'projectId' });

@@ -21,7 +21,7 @@ const LogoImage = sequelize.define("LogoImages", {
   },
 });
 
-module.exports = LogoImages;
+module.exports = LogoImage;
 LogoImage.associate = (models) => {
   LogoImage.belongsTo(models.Projects, { foreignKey: 'projectId' });
 };
