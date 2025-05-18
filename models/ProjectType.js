@@ -1,30 +1,24 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../utils/db");
 
-const User = sequelize.define("User", {
+const ProjectType = sequelize.define("ProjectTypes", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  email: {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  description: {
     type: DataTypes.STRING,
     allowNull: true,
-    unique: true,
-  },
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  role: {
-    type: DataTypes.STRING,
-    defaultValue: "user",
   },
 });
 
-module.exports = User;
+module.exports = ProjectTypes;
+ProjectType.associate = (models) => {
+  ProjectType.hasMany(models.Projects, { foreignKey: "projectTypeId" });
+};

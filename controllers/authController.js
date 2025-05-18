@@ -4,9 +4,9 @@ const { generateToken, refreshToken } = require("../utils/jwt");
 
 async function register(req, res) {
   try {
-    const { username, password } = req.body;
+    const { username, password, email } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ username, password: hashedPassword });
+    const newUser = await User.create({ username, password: hashedPassword, email });
     res.status(201).json({ message: "User terdaftar!" });
   } catch (err) {
     res.status(500).json({ message: "Error register user", error: err.message });
