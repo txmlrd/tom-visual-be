@@ -15,6 +15,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/post", authMiddleware, postRoutes);
 app.use("/api/get", authMiddleware, getRoutes);
 
+app.use('/storage', express.static('storage'));
 
 app.get("/public", (req, res) => {
   res.send("Selamat datang di API Auth! PUBLIC");

@@ -1,5 +1,7 @@
 const Project = require("../models/Project");
 const ProjectType = require("../models/ProjectType");
+const path = require("path");
+const fs = require("fs");
 
 async function getAllProjects(req, res) {
   try {
@@ -17,6 +19,17 @@ async function getAllProjectTypes(req, res) {
   } catch (err) {
     res.status(500).json({ message: "Error fetching project types", error: err.message });
   }
+}
+
+async function getProjectImage(req, res) {
+  const { id } = req.params;
+  const imagePath = path.join(__dirname, "../storage/projectImages", `${id}.jpg`);
+
+  if (!fs.existsSync(imagePath)) {
+    return res.status(404).json({ message: "Image not found" });
+  }
+
+  res.sendFile(imagePath);
 }
 
 async function addProject(req, res) {
@@ -37,4 +50,4 @@ async function addProject(req, res) {
   }
 }
 
-module.exports = { addProject, getAllProjectTypes, getAllProjects };
+module.exports = { addProject, getAllProjectTypes, getAllProjects, getProjectImage };
