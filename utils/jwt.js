@@ -10,11 +10,11 @@ function refreshToken(payload) {
   return jwt.sign(payload, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
 }
 
-
 function verifyToken(token) {
   try {
-    return jwt.verify(token, secretKey);
-  } catch {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    console.error("Token verification failed:", err.message);
     return null;
   }
 }

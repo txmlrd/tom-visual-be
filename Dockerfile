@@ -12,4 +12,4 @@ RUN npm install
 COPY . .
 
 # Jalankan aplikasi
-CMD ["node", "index.js"]
+CMD ["npm", "run", "dev"]
