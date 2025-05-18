@@ -23,8 +23,7 @@ const ProjectType = sequelize.define(
     timestamps: false,
   }
 );
-
-module.exports = ProjectType;
 ProjectType.associate = (models) => {
   ProjectType.hasMany(models.Projects, { foreignKey: "projectTypeId" });
 };
+module.exports = ProjectType;
